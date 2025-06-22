@@ -9,7 +9,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
-    "discord.js": "^14.20.0",
-    "slashasaurus": "^0.13.0-beta"
+    "@sapphire/framework": "^5.3.6",
+    "discord.js": "^14.20.0"
   }
 }
