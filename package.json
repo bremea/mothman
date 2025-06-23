@@ -1,9 +1,15 @@
 {
   "name": "mothman",
-  "module": "src/index.ts",
+  "main": "src/index.ts",
   "type": "module",
+  "scripts": {
+    "start": "bun .",
+    "dev": "bun --watch ."
+  },
   "devDependencies": {
-    "@types/bun": "latest"
+    "@types/bun": "latest",
+    "eslint": "^9.29.0",
+    "prettier": "^3.6.0"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"
