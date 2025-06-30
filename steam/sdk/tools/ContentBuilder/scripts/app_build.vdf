@@ -1,0 +1,23 @@
+"AppBuild"
+{
+	"AppID"				"2434930"
+	"Desc"				"buildidreplacekey"
+	"Preview"			"1"
+	"SetLive"			"beta"
+	"ContentRoot"		"sdk/tools/ContentBuilder/content"
+	"BuildOutput"		"sdk/tools/ContentBuilder/output"
+	"Depots"
+	{
+		"2434931"	// windows-desktop-64-bit
+		{
+			"FileMapping"
+			{
+				"LocalPath"		"windows-desktop-64-bit"
+				"DepotPath"		"."
+				"recursive"		"1"
+			}
+			"FileExclusion"		"BlueRidgeHunting_BackUpThisFolder_ButDontShipItWithYourGame"
+			"FileExclusion"		"BlueRidgeHunting_BurstDebugInformation_DoNotShip"
+		}
+	}
+}
