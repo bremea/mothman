@@ -1,9 +1,9 @@
-FROM oven/bun:alpine
+FROM oven/bun:debian
 
-RUN apk add --no-cache bash sudo
-
-RUN adduser -S -h /home/mothman -s /bin/bash mothman
-RUN echo "mothman ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
+RUN apt-get update && \
+	apt-get install -y sudo bash passwd && \
+	useradd -m -s /bin/bash mothman && \
+	echo "mothman ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
 USER mothman
 WORKDIR /home/mothman/bot
