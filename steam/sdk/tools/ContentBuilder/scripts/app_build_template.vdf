@@ -2,22 +2,22 @@
 {
 	"AppID"				"2434930"
 	"Desc"				"buildidreplacekey"
-	"Preview"			"1"
+	"Preview"			"0"
 	"SetLive"			"beta"
-	"ContentRoot"		"sdk/tools/ContentBuilder/content"
-	"BuildOutput"		"sdk/tools/ContentBuilder/output"
+	"ContentRoot"		"../content"
+	"BuildOutput"		"../output"
 	"Depots"
 	{
 		"2434931"	// windows-desktop-64-bit
 		{
 			"FileMapping"
 			{
-				"LocalPath"		"windows-desktop-64-bit"
+				"LocalPath"		"../content/windows-desktop-64-bit/*"
 				"DepotPath"		"."
 				"recursive"		"1"
 			}
-			"FileExclusion"		"BlueRidgeHunting_BackUpThisFolder_ButDontShipItWithYourGame"
-			"FileExclusion"		"BlueRidgeHunting_BurstDebugInformation_DoNotShip"
+			"FileExclusion"		"../content/windows-desktop-64-bit/BlueRidgeHunting_BackUpThisFolder_ButDontShipItWithYourGame"
+			"FileExclusion"		"../content/windows-desktop-64-bit/BlueRidgeHunting_BurstDebugInformation_DoNotShip"
 		}
 	}
 }

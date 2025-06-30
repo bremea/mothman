@@ -42,7 +42,9 @@ export class BuildRoute extends Route {
 		const buildId = (await redis.get(fullBuildInfo.buildtargetid)) ?? 0;
 
 		(async () => {
-			downloadArtifact(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
+			//downloadArtifact(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
+
+			await processBuild(buildId.toString());
 		})();
 
 		return response.status(200);
@@ -109,10 +111,10 @@ async function downloadArtifact(url: string, target: string, buildId: string): P
 }
 
 async function processBuild(buildId: string): Promise<void> {
-	const uploadProcess = Bun.spawn(
-		['steam/sdk/tools/ContentBuilder/runbuild.sh', process.env.STEAM_USERNAME!],
-		{ stdout: 'pipe' }
-	);
+	const uploadProcess = Bun.spawn(['./runbuild.sh', process.env.STEAM_USERNAME!], {
+		stdout: 'pipe',
+		cwd: 'steam/sdk/tools/ContentBuilder'
+	});
 
 	const output = await new Response(uploadProcess.stdout).text();
 	const buffer = Buffer.from(output, 'utf-8');

@@ -173,3 +173,12 @@ dist
 
 # Finder (MacOS) folder config
 .DS_Store
+
+# Steam SDK stuff
+steam/sdk/tools/ContentBuilder/builder_linux
+steam/sdk/tools/ContentBuilder/builder
+steam/sdk/tools/ContentBuilder/builder_osx
+steam/sdk/tools/ContentBuilder/content
+steam/sdk/tools/ContentBuilder/output
+steam/sdk/tools/ContentBuilder/scripts/app_build.vdf
+steam/sdk/tools/ContentBuilder/scripts/app_build.vdf
