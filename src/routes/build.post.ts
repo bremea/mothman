@@ -42,7 +42,7 @@ export class BuildRoute extends Route {
 		const buildId = (await redis.get(fullBuildInfo.buildtargetid)) ?? 0;
 
 		(async () => {
-			processBuild(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
+			downloadArtifact(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
 		})();
 
 		return response.status(200);
@@ -104,24 +104,14 @@ async function downloadArtifact(url: string, target: string, buildId: string): P
 		});
 		return;
 	}
+
+	// if no other builds pending, process build
+	await processBuild(buildId);
 }
 
-async function processBuild(url: string, target: string, buildId: string): Promise<void> {
-	console.log([
-		'steam/sdk/tools/ContentBuilder/runbuild.sh',
-		url,
-		target,
-		buildId,
-		process.env.STEAM_USERNAME!
-	]);
+async function processBuild(buildId: string): Promise<void> {
 	const uploadProcess = Bun.spawn(
-		[
-			'steam/sdk/tools/ContentBuilder/runbuild.sh',
-			url,
-			target,
-			buildId,
-			process.env.STEAM_USERNAME!
-		],
+		['steam/sdk/tools/ContentBuilder/runbuild.sh', process.env.STEAM_USERNAME!],
 		{ stdout: 'pipe' }
 	);
 
@@ -133,7 +123,7 @@ async function processBuild(url: string, target: string, buildId: string): Promi
 
 	if (exitCode == 0) {
 		sendWebhook({
-			content: `✅ **Build upload SUCCESS!** Build ${buildId} for target ${target} is now live on Steam beta branch.`,
+			content: `✅ **Build upload SUCCESS!** Build ${buildId} is now live on Steam beta branch.`,
 			files: [log]
 		});
 	} else {
