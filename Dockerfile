@@ -5,7 +5,6 @@ RUN apt-get update && \
 	useradd -m -s /bin/bash mothman && \
 	echo "mothman ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
-USER mothman
 WORKDIR /home/mothman/bot
 
 COPY bun.lockb package.json ./
