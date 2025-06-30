@@ -1,5 +1,7 @@
 import { Route } from '@sapphire/plugin-api';
 import { redis } from 'bun';
+import fs, { readFile, writeFile } from 'fs';
+import unzipper from 'unzipper';
 import { AttachmentBuilder, WebhookClient, type WebhookMessageCreateOptions } from 'discord.js';
 
 export class BuildRoute extends Route {
@@ -39,13 +41,79 @@ export class BuildRoute extends Route {
 
 		const buildId = (await redis.get(fullBuildInfo.buildtargetid)) ?? 0;
 
-		processBuild(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
+		(async () => {
+			processBuild(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
+		})();
 
 		return response.status(200);
 	}
 }
 
+async function downloadArtifact(url: string, target: string, buildId: string): Promise<void> {
+	// fetch zip
+	const res = await fetch(url);
+	if (!res.ok) {
+		sendWebhook({
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Got non-200 response when trying to download artifact for target ${target} (got: ${res.status})`
+		});
+		return;
+	}
+
+	const zipPath = `steam/sdk/tools/ContentBuilder/content/${target}.zip`;
+	const destDir = `steam/sdk/tools/ContentBuilder/content/${target}`;
+	const fileStream = fs.createWriteStream(zipPath);
+
+	// download
+	try {
+		for await (const chunk of res.body!) {
+			const ok = fileStream.write(chunk);
+			if (!ok) {
+				await new Promise<void>((resolve) => fileStream.on('drain', () => resolve()));
+			}
+		}
+
+		fileStream.end();
+		await new Promise<void>((resolve) => fileStream.on('finish', () => resolve()));
+	} catch (err) {
+		sendWebhook({
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when downloading artifact zip`
+		});
+		fileStream.destroy();
+		return;
+	}
+
+	// make content dir if not exist
+	if (!fs.existsSync(destDir)) fs.mkdirSync(destDir, { recursive: true });
+
+	// unzip
+	await fs
+		.createReadStream(zipPath)
+		.pipe(unzipper.Extract({ path: destDir }))
+		.promise();
+
+	// set build version in app_build.vdf
+	const vdfTemplate = 'steam/sdk/tools/ContentBuilder/scripts/app_build_template.vdf';
+	const vdf = 'steam/sdk/tools/ContentBuilder/scripts/app_build.vdf';
+	try {
+		const original = await Bun.file(vdfTemplate).text();
+		const updated = original.replace(/buildidreplacekey/g, `b${buildId}`);
+		await Bun.write(vdf, updated);
+	} catch (err) {
+		sendWebhook({
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when updating build number in app_build.vdf`
+		});
+		return;
+	}
+}
+
 async function processBuild(url: string, target: string, buildId: string): Promise<void> {
+	console.log([
+		'steam/sdk/tools/ContentBuilder/runbuild.sh',
+		url,
+		target,
+		buildId,
+		process.env.STEAM_USERNAME!
+	]);
 	const uploadProcess = Bun.spawn(
 		[
 			'steam/sdk/tools/ContentBuilder/runbuild.sh',
