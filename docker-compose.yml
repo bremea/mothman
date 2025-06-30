@@ -22,7 +22,7 @@ services:
       - "6380:6380"
     volumes:
       - redis_data:/data
-    command: ["redis-server", "--appendonly", "yes"]
+    command: ["redis-server", "-p 6380", "--appendonly", "yes"]
     restart: unless-stopped
 
 volumes:
