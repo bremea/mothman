@@ -1,5 +1,9 @@
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
-import type { InteractionResponse, StringSelectMenuInteraction } from 'discord.js';
+import {
+	WebhookClient,
+	type InteractionResponse,
+	type StringSelectMenuInteraction
+} from 'discord.js';
 import { incrementBuildNumber } from '../lib/buildIds';
 
 export class BuildTargetSelectHandler extends InteractionHandler {
@@ -107,6 +111,12 @@ export class BuildTargetSelectHandler extends InteractionHandler {
 
 			statuses[target] = `✅ Build submitted for "${target}" (b${versionNumber})`;
 			this.updateReply(reply, statuses);
+
+			const webhookClient = new WebhookClient({ url: process.env.DISCORD_WEBHOOK! });
+
+			webhookClient.send({
+				content: `ℹ️ Build b${versionNumber} for target ${target} submitted by <@${interaction.user.id}>`
+			});
 		}
 	}
 

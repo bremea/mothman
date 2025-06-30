@@ -61,24 +61,20 @@ async function downloadArtifact(url: string, target: string, buildId: string): P
 
 	const zipPath = `steam/sdk/tools/ContentBuilder/content/${target}.zip`;
 	const destDir = `steam/sdk/tools/ContentBuilder/content/${target}`;
-	const fileStream = fs.createWriteStream(zipPath);
+	const zipFile = Bun.file(zipPath);
+	const writer = zipFile.writer();
 
 	// download
 	try {
 		for await (const chunk of res.body!) {
-			const ok = fileStream.write(chunk);
-			if (!ok) {
-				await new Promise<void>((resolve) => fileStream.on('drain', () => resolve()));
-			}
+			writer.write(chunk);
+			await writer.flush();
 		}
-
-		fileStream.end();
-		await new Promise<void>((resolve) => fileStream.on('finish', () => resolve()));
+		await writer.end();
 	} catch (err) {
 		sendWebhook({
 			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when downloading artifact zip`
 		});
-		fileStream.destroy();
 		return;
 	}
 
@@ -104,6 +100,9 @@ async function downloadArtifact(url: string, target: string, buildId: string): P
 		});
 		return;
 	}
+
+	// delete zip
+	await zipFile.delete();
 
 	// if no other builds pending, process build
 	await processBuild(buildId);
