@@ -6,6 +6,8 @@ services:
     container_name: mothman-bot
     depends_on:
       - redis
+    ports:
+      - "4000:4000"
     environment:
       - REDIS_HOST=redis
       - REDIS_PORT=6379
