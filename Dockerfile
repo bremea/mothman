@@ -1,7 +1,7 @@
 FROM oven/bun:alpine
 
 RUN apk add --no-cache bash
-RUN adduser -S -h /home/mothman -s /bin/bash -G sudo mothman
+RUN adduser -S -h /home/mothman -s /bin/bash mothman
 
 USER mothman
 WORKDIR /home/mothman/bot
