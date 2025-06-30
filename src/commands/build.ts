@@ -34,7 +34,7 @@ export class BuildCommand extends Command {
 
 		if (unityApiReq.status != 200) {
 			await interaction.reply({
-				content: `Error: non-200 response when fetching build targets`,
+				content: `Error: non-200 response when fetching build targets (got ${unityApiReq.status})`,
 				withResponse: true
 			});
 			return;

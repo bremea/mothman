@@ -44,7 +44,7 @@ export class BuildTargetSelectHandler extends InteractionHandler {
 
 			if (buildsCheckReq.status != 200) {
 				statuses[target] =
-					`❌ Non-200 response when checking builds in progress for target "${target}"`;
+					`❌ Non-200 response when checking builds in progress for target "${target}" (got ${buildsCheckReq.status})`;
 				this.updateReply(reply, statuses);
 				continue;
 			}
@@ -68,18 +68,20 @@ export class BuildTargetSelectHandler extends InteractionHandler {
 					method: 'PUT',
 					headers: {
 						Authorization: process.env.UNITY_API_KEY as string,
-						Accept: 'application/json'
+						Accept: 'application/json',
+						'Content-Type': 'application/json'
 					},
 					body: JSON.stringify({
 						envvars: {
-							BUILD_ID: versionNumber
+							BUILD_ID: versionNumber.toString()
 						}
 					})
 				}
 			);
 
 			if (setEnvVars.status != 200) {
-				statuses[target] = `❌ Non-200 response when setting envvars for "${target}"`;
+				statuses[target] =
+					`❌ Non-200 response when setting envvars for "${target}" (got ${setEnvVars.status})`;
 				this.updateReply(reply, statuses);
 				continue;
 			}
@@ -97,7 +99,8 @@ export class BuildTargetSelectHandler extends InteractionHandler {
 			);
 
 			if (submitBuildReq.status != 202) {
-				statuses[target] = `❌ Non-202 response when submitting build for target "${target}"`;
+				statuses[target] =
+					`❌ Non-202 response when submitting build for target "${target}" (got ${submitBuildReq.status})`;
 				this.updateReply(reply, statuses);
 				continue;
 			}
