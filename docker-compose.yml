@@ -16,8 +16,8 @@ services:
   redis:
     image: redis:alpine
     command: redis-server --port 6380 --appendonly yes
-    ports:
-      - "6380:6380"
+    expose:
+      - "6380"
     volumes:
         - redis_data:/data
     restart: always
