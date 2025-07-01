@@ -10,6 +10,6 @@ WORKDIR /root/bot
 COPY . .
 RUN bun install
 
-VOLUME ["/root"]
+VOLUME ["/root/Steam"]
 
 CMD ["bun", "start"]

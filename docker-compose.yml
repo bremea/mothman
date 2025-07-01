@@ -10,7 +10,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6380
     volumes:
-      - mothman_data:/root
+      - steam_data:/root/Steam
     restart: unless-stopped
 
   redis:
@@ -25,5 +25,5 @@ services:
       - REDIS_REPLICATION_MODE=master
 
 volumes:
-  mothman_data:
+  steam_data:
   redis_data:
