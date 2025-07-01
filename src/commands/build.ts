@@ -9,14 +9,16 @@ import {
 
 export class BuildCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
-		super(context, { preconditions: ['RoleCheck'], ...options });
+		super(context, { ...options, preconditions: ['RoleCheck'] });
 	}
 
 	public override registerApplicationCommands(registry: Command.Registry) {
-		registry.registerChatInputCommand((builder) =>
-			builder
-				.setName('build')
-				.setDescription('Trigger a new build & auto upload to Steam nightly branch')
+		registry.registerChatInputCommand(
+			(builder) =>
+				builder
+					.setName('build')
+					.setDescription('Trigger a new build & auto upload to Steam nightly branch'),
+			{ guildIds: ['1382087628181995771'] }
 		);
 	}
 
