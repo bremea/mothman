@@ -59,8 +59,8 @@ async function downloadArtifact(url: string, target: string, buildId: string): P
 		return;
 	}
 
-	const zipPath = `steam/sdk/tools/ContentBuilder/content/${target}.zip`;
-	const destDir = `steam/sdk/tools/ContentBuilder/content/${target}`;
+	const zipPath = `./steam/sdk/tools/ContentBuilder/content/${target}.zip`;
+	const destDir = `./steam/sdk/tools/ContentBuilder/content/${target}`;
 	const zipFile = Bun.file(zipPath);
 	const writer = zipFile.writer();
 
