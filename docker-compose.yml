@@ -10,7 +10,7 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6380
     volumes:
-      - mothman_data:/home/mothman
+      - mothman_data:/root
     restart: unless-stopped
 
   redis:
