@@ -2,8 +2,8 @@ FROM oven/bun:debian
 
 # fix for steamcmd
 RUN dpkg --add-architecture i386 \
- && apt-get update \
- && apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 ca-certificates
+	&& apt-get update \
+	&& apt-get install -y libc6:i386 libncurses5:i386 libstdc++6:i386 ca-certificates
 
 RUN apt-get update && \
 	apt-get install -y sudo bash passwd && \
@@ -12,10 +12,8 @@ RUN apt-get update && \
 
 WORKDIR /home/mothman/bot
 
-COPY bun.lockb package.json ./
-RUN bun install
-
 COPY . .
+RUN bun install
 
 VOLUME ["/home/mothman"]
 

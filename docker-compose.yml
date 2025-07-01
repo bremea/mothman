@@ -1,7 +1,5 @@
-version: '3.9'
-
 services:
-  app:
+  bot:
     build: .
     container_name: mothman-bot
     depends_on:
@@ -12,18 +10,20 @@ services:
       - REDIS_HOST=redis
       - REDIS_PORT=6380
     volumes:
-      - .:/home/mothman
+      - mothman_data:/home/mothman
     restart: unless-stopped
 
   redis:
-    image: redis:7
-    container_name: redis-server
+    image: redis:alpine
+    command: redis-server --appendonly yes
     ports:
       - "6380:6380"
     volumes:
-      - redis_data:/data
-    command: ["redis-server", "--port 6380", "--appendonly", "yes"]
-    restart: unless-stopped
+        - redis_data:/data
+    restart: always
+    environment:
+      - REDIS_REPLICATION_MODE=master
 
 volumes:
+  mothman_data:
   redis_data:
