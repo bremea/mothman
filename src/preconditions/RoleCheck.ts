@@ -13,7 +13,6 @@ export class RoleCheckPrecondition extends Precondition {
 	}
 
 	private async checkRole(member: GuildMember) {
-		console.log('s')
 		return member.roles.cache.some((role) => role.id == '1386830783012143114')
 			? this.ok()
 			: this.error({ message: 'Missing Build Permissions Role (1386830783012143114)' });
