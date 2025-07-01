@@ -15,7 +15,7 @@ services:
 
   redis:
     image: redis:alpine
-    command: redis-server --appendonly yes
+    command: redis-server --port 6380 --appendonly yes
     ports:
       - "6380:6380"
     volumes:
