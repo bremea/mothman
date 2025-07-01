@@ -17,4 +17,6 @@ RUN bun install
 
 COPY . .
 
+VOLUME ["/home/mothman"]
+
 CMD ["bun", "start"]
