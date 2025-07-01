@@ -68,7 +68,7 @@ export class BuildCommand extends Command {
 			buildTargets.push(targetData);
 		}
 
-		console.log(process.env.REDIS_URL)
+		console.log("redis url: " + process.env.REDIS_URL)
 
 		await interaction.reply({
 			content: `Select Build Target(s):`,
