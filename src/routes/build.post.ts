@@ -1,6 +1,6 @@
 import { Route } from '@sapphire/plugin-api';
 import { redis } from 'bun';
-import fs, { readFile, writeFile } from 'fs';
+import fs from 'fs';
 import unzipper from 'unzipper';
 import { AttachmentBuilder, WebhookClient, type WebhookMessageCreateOptions } from 'discord.js';
 
@@ -42,9 +42,7 @@ export class BuildRoute extends Route {
 		const buildId = (await redis.get(fullBuildInfo.buildtargetid)) ?? 0;
 
 		(async () => {
-			//downloadArtifact(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
-
-			await processBuild(buildId.toString());
+			await downloadArtifact(buildUrl, fullBuildInfo.buildtargetid, buildId.toString());
 		})();
 
 		return response.status(200);
@@ -105,6 +103,8 @@ async function downloadArtifact(url: string, target: string, buildId: string): P
 
 	// delete zip
 	await zipFile.delete();
+
+	// TODO check if other targets are still building and/or downloading
 
 	// if no other builds pending, process build
 	await processBuild(buildId);
