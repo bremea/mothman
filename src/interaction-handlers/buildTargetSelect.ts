@@ -77,7 +77,8 @@ export class BuildTargetSelectHandler extends InteractionHandler {
 					},
 					body: JSON.stringify({
 						envvars: {
-							BUILD_ID: versionNumber.toString()
+							PREPROCESS_BUILD_ID: versionNumber.toString(),
+							PREPROCESS_BUILD_TARGET: target
 						}
 					})
 				}
