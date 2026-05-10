@@ -1,4 +1,4 @@
-FROM node:latest
+FROM node:trixie
 
 # fix for steamcmd
 RUN dpkg --add-architecture i386 \
