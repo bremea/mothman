@@ -17,4 +17,6 @@ const client = new SapphireClient({
 
 connectRedis();
 
+console.log(`my token : ${process.env.TOKEN}`)
+
 client.login(process.env.TOKEN);
