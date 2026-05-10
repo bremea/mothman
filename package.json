@@ -1,24 +1,25 @@
 {
-  "name": "mothman",
-  "main": "src/index.ts",
-  "type": "module",
-  "scripts": {
-    "start": "bun .",
-    "dev": "bun --watch ."
-  },
-  "devDependencies": {
-    "@types/bun": "latest",
-    "eslint": "^9.29.0",
-    "prettier": "^3.6.0"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  },
-  "dependencies": {
-    "@sapphire/framework": "^5.3.6",
-    "@sapphire/plugin-api": "^8.3.1",
-    "@types/unzipper": "^0.10.11",
-    "discord.js": "^14.20.0",
-    "unzipper": "^0.12.3"
-  }
+	"name": "mothman",
+	"main": "src/index.ts",
+	"type": "module",
+	"scripts": {
+		"start": "yarn ts-node src/index.ts"
+	},
+	"devDependencies": {
+		"eslint": "^9.39.4",
+		"prettier": "^3.8.3",
+		"ts-node": "^10.9.2",
+		"typescript": "^6.0.3"
+	},
+	"peerDependencies": {
+		"typescript": "^5.8.3"
+	},
+	"dependencies": {
+		"@redis/client": "^5.12.1",
+		"@sapphire/framework": "^5.5.0",
+		"@sapphire/plugin-api": "^8.3.1",
+		"@types/unzipper": "^0.10.11",
+		"discord.js": "^14.26.3",
+		"unzipper": "^0.12.3"
+	}
 }

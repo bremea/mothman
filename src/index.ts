@@ -1,6 +1,9 @@
 import { SapphireClient } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord.js';
 import '@sapphire/plugin-api/register';
+import { connectRedis } from './lib/redis';
+
+connectRedis();
 
 const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],

@@ -1,6 +1,6 @@
 "AppBuild"
 {
-	"AppID"				"2434930"
+	"AppID"				"4089260"
 	"Desc"				"b10"
 	"Preview"			"0"
 	"SetLive"			"beta"
@@ -8,7 +8,7 @@
 	"BuildOutput"		"../output"
 	"Depots"
 	{
-		"2434931"	// windows-desktop-64-bit
+		"4089261"	// windows-desktop-64-bit
 		{
 			"FileMapping"
 			{

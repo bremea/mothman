@@ -1,4 +1,4 @@
-FROM oven/bun:debian
+FROM node:latest
 
 # fix for steamcmd
 RUN dpkg --add-architecture i386 \
@@ -8,8 +8,8 @@ RUN dpkg --add-architecture i386 \
 WORKDIR /root/bot
 
 COPY . .
-RUN bun install
+RUN yarn install
 
 VOLUME ["/root/Steam"]
 
-CMD ["bun", "start"]
+CMD ["yarn", "start"]
