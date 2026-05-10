@@ -1,4 +1,4 @@
-FROM node:debian
+FROM node:bookworm
 
 # fix for steamcmd
 RUN dpkg --add-architecture i386 \
