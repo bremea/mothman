@@ -1,8 +1,8 @@
 import { Route } from '@sapphire/plugin-api';
 import { WebhookClient } from 'discord.js';
-import { getBuilds, getBuildTargets, setEnvironmentVariables, submitBuild } from '../lib/requests';
-import { getCurrentSemanticVersion, setTargetNextVersion } from '../lib/redis';
-import { generateVersionString } from '../lib/utils';
+import { getBuilds, getBuildTargets, setEnvironmentVariables, submitBuild } from '../lib/requests.js';
+import { getCurrentSemanticVersion, setTargetNextVersion } from '../lib/redis.js';
+import { generateVersionString } from '../lib/utils.js';
 
 export class CheckinRoute extends Route {
 	public async run(request: Route.Request, response: Route.Response) {

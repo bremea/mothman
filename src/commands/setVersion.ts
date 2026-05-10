@@ -1,5 +1,5 @@
 import { Command } from '@sapphire/framework';
-import { setCurrentSemanticVersion } from '../lib/redis';
+import { setCurrentSemanticVersion } from '../lib/redis.js';
 
 export class SetVersionCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {

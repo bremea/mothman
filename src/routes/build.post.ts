@@ -5,7 +5,7 @@ import { spawn } from 'child_process';
 import { pipeline } from 'stream/promises';
 import unzipper from 'unzipper';
 import { AttachmentBuilder, WebhookClient, type WebhookMessageCreateOptions } from 'discord.js';
-import { getTargetNextVersion } from '../lib/redis';
+import { getTargetNextVersion } from '../lib/redis.js';
 
 export class BuildRoute extends Route {
 	public async run(request: Route.Request, response: Route.Response) {
