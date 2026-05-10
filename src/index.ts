@@ -6,6 +6,8 @@ import 'dotenv/config';
 
 connectRedis();
 
+console.log(process.env.TOKEN)
+
 const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 	api: {
