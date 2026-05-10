@@ -1,8 +1,8 @@
 import { InteractionHandler, InteractionHandlerTypes } from '@sapphire/framework';
 import { ModalSubmitInteraction, WebhookClient, type InteractionResponse } from 'discord.js';
-import { generateVersionString } from '../lib/utils.js';
-import { getBuilds, setEnvironmentVariables, submitBuild } from '../lib/requests.js';
-import { setTargetNextVersion } from '../lib/redis.js';
+import { generateVersionString } from '../lib/utils.ts';
+import { getBuilds, setEnvironmentVariables, submitBuild } from '../lib/requests.ts';
+import { setTargetNextVersion } from '../lib/redis.ts';
 
 export class BuildSubmitHandler extends InteractionHandler {
 	public constructor(ctx: InteractionHandler.LoaderContext, options: InteractionHandler.Options) {

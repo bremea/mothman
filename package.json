@@ -2,8 +2,9 @@
 	"name": "mothman",
 	"main": "src/index.ts",
 	"type": "module",
+	"license": "MIT",
 	"scripts": {
-		"start": "yarn ts-node src/index.ts"
+		"start": "node --import ts-node/esm src/index.ts"
 	},
 	"devDependencies": {
 		"eslint": "^9.39.4",

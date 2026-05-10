@@ -1,7 +1,7 @@
 import { SapphireClient } from '@sapphire/framework';
 import { GatewayIntentBits } from 'discord.js';
 import '@sapphire/plugin-api/register';
-import { connectRedis } from './lib/redis.js';
+import { connectRedis } from './lib/redis.ts';
 
 connectRedis();
 

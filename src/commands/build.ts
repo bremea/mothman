@@ -1,6 +1,6 @@
 import { Command } from '@sapphire/framework';
 import { ComponentType, type APISelectMenuOption } from 'discord.js';
-import { getBuildTargets } from '../lib/requests.js';
+import { getBuildTargets } from '../lib/requests.ts';
 
 export class BuildCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
