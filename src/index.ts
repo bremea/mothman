@@ -4,10 +4,6 @@ import '@sapphire/plugin-api/register';
 import { connectRedis } from './lib/redis.ts';
 import 'dotenv/config';
 
-connectRedis();
-
-console.log(process.env.TOKEN)
-
 const client = new SapphireClient({
 	intents: [GatewayIntentBits.Guilds, GatewayIntentBits.GuildMessages],
 	api: {
@@ -18,5 +14,7 @@ const client = new SapphireClient({
 		}
 	}
 });
+
+connectRedis();
 
 client.login(process.env.TOKEN);
