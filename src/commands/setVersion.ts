@@ -22,10 +22,8 @@ export class SetVersionCommand extends Command {
 
 		await setCurrentSemanticVersion(versionString);
 
-		await interaction.reply({
-			content: `✅ Set default semantic version for auto-builder to \`${versionString}\``,
-			withResponse: true
+		return interaction.reply({
+			content: `✅ Set default semantic version for auto-builder to \`${versionString}\``
 		});
-		return;
 	}
 }
