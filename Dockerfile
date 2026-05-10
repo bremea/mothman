@@ -1,5 +1,7 @@
 FROM node:bookworm
-RUN corepack enable && corepack prepare yarn@stable --activate
+RUN npm install -g corepack && \
+    corepack enable && \
+    corepack prepare yarn@stable --activate
 
 # fix for steamcmd
 RUN dpkg --add-architecture i386 \
