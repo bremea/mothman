@@ -25,7 +25,7 @@ export class BuildSubmitHandler extends InteractionHandler {
 		const buildChangeset = interaction.fields.getTextInputValue('buildChangeset');
 		const buildBranch = interaction.fields.getTextInputValue('buildBranch');
 		const buildTargets = interaction.fields.getStringSelectValues('buildTargets');
-
+		
 		for (const target of buildTargets) {
 			statuses[target] = `<a:loading:1386840225635893428> Checking target ${target}`;
 		}

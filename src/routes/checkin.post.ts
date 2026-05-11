@@ -37,6 +37,7 @@ export class CheckinRoute extends Route {
 			const buildsCheckReq = await getBuilds(targetShorthand);
 
 			if (buildsCheckReq.status != 200) {
+				console.log(await buildsCheckReq.text());
 				webhookClient.send({
 					content: `❌ **Auto-build error:** error when checking builds in progress for target ${fullTargetId} (${targetShorthand}): endpoint returned ${buildsCheckReq.status}`
 				});
