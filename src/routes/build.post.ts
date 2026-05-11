@@ -134,6 +134,9 @@ async function processBuild(versionString: string): Promise<void> {
 			content: `✅ **Build upload SUCCESS!** Build v${versionString} is now live on Steam beta branch.`,
 			files: [log]
 		});
+		sendWebhook({
+			content: `\`v${versionString}\` is now available on the Steam demo's beta branch. <@&1503223557877006396>`
+		}, process.env.DISCORD_PUBLIC_WEBHOOK!);
 	} else {
 		sendWebhook({
 			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Exit code: ${exitCode} (for v${versionString})`,
@@ -142,8 +145,8 @@ async function processBuild(versionString: string): Promise<void> {
 	}
 }
 
-async function sendWebhook(content: WebhookMessageCreateOptions) {
-	const webhookClient = new WebhookClient({ url: process.env.DISCORD_WEBHOOK! });
+async function sendWebhook(content: WebhookMessageCreateOptions, url?: string) {
+	const webhookClient = new WebhookClient({ url: url ?? process.env.DISCORD_WEBHOOK! });
 
 	webhookClient.send(content);
 }
