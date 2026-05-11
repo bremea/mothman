@@ -24,4 +24,12 @@ export const setTargetNextVersion = async (target: string, value: string) => {
 	return await client.set(`nextver-${target}`, value);
 };
 
+export const getLatestKnownChangeset = async () => {
+	return await client.get(`lastchange`);
+};
+
+export const setLatestKnownChangeset = async (value: string) => {
+	return await client.set(`lastchange`, value);
+};
+
 export default client;

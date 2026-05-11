@@ -1,3 +1,8 @@
+export const BUILD_TARGET_SHORTHANDS: Record<string, string> = {
+	'linux-desktop-64-bit': 'linux',
+	'windows-desktop-64-bit-main': 'win65'
+};
+
 export const generateVersionString = (semantic: string, changeset: string, target: string, branch?: string) => {
 	return `${semantic}.${getETDate()}-${changeset}-${target}${branch ? `-${branch}` : ''}`;
 };

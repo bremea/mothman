@@ -1,6 +1,7 @@
 import { Command } from '@sapphire/framework';
 import { ComponentType, type APISelectMenuOption } from 'discord.js';
 import { getBuildTargets } from '../lib/requests.ts';
+import { getCurrentSemanticVersion, getLatestKnownChangeset } from '../lib/redis.ts';
 
 export class BuildCommand extends Command {
 	public constructor(context: Command.LoaderContext, options: Command.Options) {
@@ -12,6 +13,8 @@ export class BuildCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
+		const currentDefaultVersion = await getCurrentSemanticVersion();
+		const latestKnownChangeset = await getLatestKnownChangeset();
 		const unityApiReq = await getBuildTargets();
 
 		if (unityApiReq.status != 200) {
@@ -62,7 +65,7 @@ export class BuildCommand extends Command {
 						required: true,
 						custom_id: 'buildVersion',
 						style: 1,
-						value: '0.8'
+						value: currentDefaultVersion ?? ''
 					}
 				},
 				{
@@ -72,7 +75,8 @@ export class BuildCommand extends Command {
 						type: ComponentType.TextInput,
 						required: true,
 						custom_id: 'buildChangeset',
-						style: 1
+						style: 1,
+						value: latestKnownChangeset ?? ''
 					}
 				},
 				{
