@@ -73,6 +73,7 @@ async function downloadArtifact(url: string, target: string, versionString: stri
 		const writeStream = fs.createWriteStream(zipPath);
 		await pipeline(res.body as any, writeStream);
 	} catch (err) {
+		console.log(err);
 		sendWebhook({
 			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when downloading artifact zip (for v${versionString})`
 		});

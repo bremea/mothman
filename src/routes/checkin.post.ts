@@ -53,7 +53,7 @@ export class CheckinRoute extends Route {
 
 			// set env vars
 			const versionString = generateVersionString(buildVersion, buildChangeset, targetShorthand, buildBranch);
-			await setTargetNextVersion(targetShorthand, versionString);
+			await setTargetNextVersion(fullTargetId, versionString);
 			const setEnvVars = await setEnvironmentVariables(versionString, fullTargetId);
 
 			if (setEnvVars.status != 200) {

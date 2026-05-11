@@ -18,7 +18,6 @@ export class SetVersionCommand extends Command {
 	}
 
 	public override async chatInputRun(interaction: Command.ChatInputCommandInteraction) {
-		console.log(interaction)
 		const versionString = interaction.options.getString('version', true);
 
 		await setCurrentSemanticVersion(versionString);
