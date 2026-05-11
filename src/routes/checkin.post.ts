@@ -21,6 +21,8 @@ export class CheckinRoute extends Route {
 		const buildBranch = checkInData['PLASTIC_BRANCH_NAME'];
 
 		const getTargets = await getBuildTargets();
+		console.log(getTargets.status);
+		console.log(await getTargets.text());
 		if (getTargets.status != 200) {
 			webhookClient.send({
 				content: `❌ **Auto-build error:** error getting available build targets: endpoint returned ${getTargets.status}`
