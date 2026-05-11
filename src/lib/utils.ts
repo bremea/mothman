@@ -1,6 +1,6 @@
 export const BUILD_TARGET_SHORTHANDS: Record<string, string> = {
 	'linux-desktop-64-bit': 'linux',
-	'windows-desktop-64-bit-main': 'win65'
+	'windows-desktop-64-bit': 'win64'
 };
 
 export const generateVersionString = (semantic: string, changeset: string, target: string, branch?: string) => {
