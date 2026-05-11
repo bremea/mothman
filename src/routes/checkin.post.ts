@@ -34,7 +34,7 @@ export class CheckinRoute extends Route {
 			const fullTargetId = target['buildtargetid'];
 			const targetShorthand = BUILD_TARGET_SHORTHANDS[fullTargetId] ?? fullTargetId;
 			// check if builds already running
-			const buildsCheckReq = await getBuilds(targetShorthand);
+			const buildsCheckReq = await getBuilds(fullTargetId);
 
 			if (buildsCheckReq.status != 200) {
 				console.log(await buildsCheckReq.text());
@@ -64,7 +64,7 @@ export class CheckinRoute extends Route {
 			}
 
 			// begin build
-			const submitBuildReq = await submitBuild(target);
+			const submitBuildReq = await submitBuild(fullTargetId);
 
 			if (submitBuildReq.status != 202) {
 				webhookClient.send({
