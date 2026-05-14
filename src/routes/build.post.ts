@@ -15,7 +15,7 @@ export class BuildRoute extends Route {
 
 		if (primaryArtifacts.length == 0) {
 			sendWebhook({
-				content: `<a:alert:1389301257331540220> **Build upload FAILED!** No primary artifacts found in webhook response (check if build failed?)`
+				content: `<a:alert:1389301257331540220> **Build upload FAILED!** No primary artifacts found in webhook response (check if build failed?) <@&1504385868180226108>`
 			});
 			return response.status(500);
 		}
@@ -33,7 +33,7 @@ export class BuildRoute extends Route {
 
 		if (unityApiReq.status != 200) {
 			sendWebhook({
-				content: `<a:alert:1389301257331540220> **Build upload FAILED!** Got non-200 response when getting build info (got: ${unityApiReq.status})`
+				content: `<a:alert:1389301257331540220> **Build upload FAILED!** Got non-200 response when getting build info (got: ${unityApiReq.status}) <@&1504385868180226108>`
 			});
 			return response.status(500);
 		}
@@ -42,7 +42,7 @@ export class BuildRoute extends Route {
 		const versionString = await getTargetNextVersion(fullBuildInfo['buildtargetid']);
 		if (!versionString) {
 			sendWebhook({
-				content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error getting next version string for build target ${fullBuildInfo['buildtargetid']}`
+				content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error getting next version string for build target ${fullBuildInfo['buildtargetid']} <@&1504385868180226108>`
 			});
 			return response.status(500);
 		}
@@ -60,7 +60,7 @@ async function downloadArtifact(url: string, target: string, versionString: stri
 	const res = await fetch(url);
 	if (!res.ok) {
 		sendWebhook({
-			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Got non-200 response when trying to download artifact for target ${target} (got: ${res.status}) (for v${versionString})`
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Got non-200 response when trying to download artifact for target ${target} (got: ${res.status}) (for v${versionString}) <@&1504385868180226108>`
 		});
 		return;
 	}
@@ -75,7 +75,7 @@ async function downloadArtifact(url: string, target: string, versionString: stri
 	} catch (err) {
 		console.log(err);
 		sendWebhook({
-			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when downloading artifact zip (for v${versionString})`
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when downloading artifact zip (for v${versionString}) <@&1504385868180226108>`
 		});
 		return;
 	}
@@ -95,7 +95,7 @@ async function downloadArtifact(url: string, target: string, versionString: stri
 		await fsp.writeFile(vdf, updated, 'utf-8');
 	} catch (err) {
 		sendWebhook({
-			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when updating build number in app_build.vdf (for v${versionString})`
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Error encountered when updating build number in app_build.vdf (for v${versionString}) <@&1504385868180226108>`
 		});
 		return;
 	}
@@ -132,7 +132,7 @@ async function processBuild(versionString: string): Promise<void> {
 
 	if (exitCode === 0) {
 		sendWebhook({
-			content: `✅ **Build upload SUCCESS!** Build v${versionString} is now live on Steam beta branch.`,
+			content: `✅ **Build upload SUCCESS!** Build v${versionString} is now live on Steam beta branch. <@&1504385868180226108>`,
 			files: [log]
 		});
 		sendWebhook({
@@ -140,7 +140,7 @@ async function processBuild(versionString: string): Promise<void> {
 		}, process.env.DISCORD_PUBLIC_WEBHOOK!);
 	} else {
 		sendWebhook({
-			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Exit code: ${exitCode} (for v${versionString})`,
+			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Exit code: ${exitCode} (for v${versionString}) <@&1504385868180226108>`,
 			files: [log]
 		});
 	}
