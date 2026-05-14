@@ -133,11 +133,27 @@ async function processBuild(versionString: string): Promise<void> {
 	if (exitCode === 0) {
 		sendWebhook({
 			content: `✅ **Build upload SUCCESS!** Build v${versionString} is now live on Steam beta branch. <@&1504385868180226108>`,
-			files: [log]
+			files: [log],
+			components: [
+				{
+					type: 1,
+					components: [
+						{
+							type: 2,
+							style: 5,
+							label: 'Go to Steamworks',
+							url: 'https://partner.steamgames.com/apps/builds/4089260'
+						}
+					]
+				}
+			]
 		});
-		sendWebhook({
-			content: `\`v${versionString}\` is now available on the Steam demo's beta branch. <@&1503223557877006396>`
-		}, process.env.DISCORD_PUBLIC_WEBHOOK!);
+		sendWebhook(
+			{
+				content: `\`v${versionString}\` is now available on the Steam demo's beta branch. <@&1503223557877006396>`
+			},
+			process.env.DISCORD_PUBLIC_WEBHOOK!
+		);
 	} else {
 		sendWebhook({
 			content: `<a:alert:1389301257331540220> **Build upload FAILED!** Exit code: ${exitCode} (for v${versionString}) <@&1504385868180226108>`,
