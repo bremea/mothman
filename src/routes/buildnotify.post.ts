@@ -1,13 +1,16 @@
 import { Route } from '@sapphire/plugin-api';
-import { WebhookClient, type WebhookMessageCreateOptions } from 'discord.js';
+import { MessageFlags, WebhookClient, type WebhookMessageCreateOptions } from 'discord.js';
 
 export class BuildNotifyRoute extends Route {
 	public async run(request: Route.Request, response: Route.Response) {
 		const buildData = (await request.readBodyJson()) as { versionString: string };
 
 		sendWebhook({
-			content: `✅ **Build upload SUCCESS!** Build v${buildData.versionString} is now live on Steam beta branch. <@&1504385868180226108>`,
 			components: [
+				{
+					type: 10,
+					content: `✅ **Build upload SUCCESS!** Build v${buildData.versionString} is now live on Steam beta branch. <@&1504385868180226108>`
+				},
 				{
 					type: 1,
 					components: [
@@ -19,7 +22,8 @@ export class BuildNotifyRoute extends Route {
 						}
 					]
 				}
-			]
+			],
+			flags: [MessageFlags.IsComponentsV2]
 		});
 		sendWebhook(
 			{
