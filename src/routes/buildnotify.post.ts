@@ -6,6 +6,7 @@ export class BuildNotifyRoute extends Route {
 		const buildData = (await request.readBodyJson()) as { versionString: string };
 
 		sendWebhook({
+			flags: [MessageFlags.IsComponentsV2],
 			components: [
 				{
 					type: 10,
@@ -22,8 +23,7 @@ export class BuildNotifyRoute extends Route {
 						}
 					]
 				}
-			],
-			flags: [MessageFlags.IsComponentsV2]
+			]
 		});
 		sendWebhook(
 			{
