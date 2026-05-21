@@ -12,7 +12,8 @@ export class SetVersionCommand extends Command {
 			(builder) =>
 				builder
 					.setName('stream')
-					.addSubcommand((subCommand) => subCommand.setName('schedule').setDescription('Manage featured livestreams').setDescription('Schedule a livestream to appear on the website')),
+					.setDescription('Manage featured livestreams')
+					.addSubcommand((subCommand) => subCommand.setName('schedule').setDescription('Schedule a livestream to appear on the website')),
 			{ guildIds: ['1382087628181995771'] }
 		);
 	}
