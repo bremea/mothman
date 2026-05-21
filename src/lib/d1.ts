@@ -50,44 +50,41 @@ export const addStream = async (title: string, videoId: string, start: string, e
 export const getLive = async (): Promise<Livestream[]> => {
 	const rows: Livestream[] = [];
 
+	const easternSortable = toSqlSortableTimestamp(getEasternTime());
+
 	for await (const queryResult of cf.d1.database.query(process.env['CF_D1_ID']!, {
 		account_id: process.env['CF_ACCOUNT_ID']!,
 		sql: `
-				WITH input(now_local) AS (
-				SELECT ?
-				),
-				current_time(now_iso) AS (
-				SELECT
-					substr(now_local, 7, 4) || '-' ||
-					substr(now_local, 4, 2) || '-' ||
-					substr(now_local, 1, 2) ||
-					substr(now_local, 11)
-				FROM input
-				)
-				SELECT
-				s.id,
-				s.title,
-				s.video,
-				s."begin",
-				s."end"
-				FROM streams AS s
-				CROSS JOIN current_time AS c
-				WHERE
-				(
-					substr(s."begin", 7, 4) || '-' ||
-					substr(s."begin", 4, 2) || '-' ||
-					substr(s."begin", 1, 2) ||
-					substr(s."begin", 11)
-				) < c.now_iso
-				AND
-				(
-					substr(s."end", 7, 4) || '-' ||
-					substr(s."end", 4, 2) || '-' ||
-					substr(s."end", 1, 2) ||
-					substr(s."end", 11)
-				) > c.now_iso;
-				`,
-		params: [getEasternTime()]
+			SELECT
+			s.id,
+			s.title,
+			s.video,
+			s."begin",
+			s."end"
+			FROM streams AS s
+			WHERE
+			(
+				substr(s."begin", 7, 4) || '-' ||
+				substr(s."begin", 4, 2) || '-' ||
+				substr(s."begin", 1, 2) ||
+				substr(s."begin", 11)
+			) < ?
+			AND
+			(
+				substr(s."end", 7, 4) || '-' ||
+				substr(s."end", 4, 2) || '-' ||
+				substr(s."end", 1, 2) ||
+				substr(s."end", 11)
+			) > ?
+			ORDER BY
+			(
+				substr(s."begin", 7, 4) || '-' ||
+				substr(s."begin", 4, 2) || '-' ||
+				substr(s."begin", 1, 2) ||
+				substr(s."begin", 11)
+			) ASC
+			`,
+		params: [easternSortable, easternSortable]
 	})) {
 		rows.push(...((queryResult.results ?? []) as Livestream[]));
 	}
@@ -189,4 +186,16 @@ export const getNews = async (offset: number, limit: number): Promise<News[]> =>
 	}
 
 	return rows;
+};
+
+const toSqlSortableTimestamp = (timestamp: string): string => {
+	const match = timestamp.match(/^(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})$/);
+
+	if (!match) {
+		throw new Error('timestamp must be formatted as DD-MM-YYYY HH:MM:SS');
+	}
+
+	const [, day, month, year, time] = match;
+
+	return `${year}-${month}-${day} ${time}`;
 };
