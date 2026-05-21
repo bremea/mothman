@@ -31,7 +31,7 @@ export const addStream = async (title: string, videoId: string, start: string, e
 			title,
 			video,
 			"begin",
-			"end";
+			"end"
 			`,
 		params: [title, videoId, start, end]
 	})) {
@@ -102,47 +102,36 @@ export const getUpcomingLive = async (offset: number, limit: number): Promise<Li
 	}
 
 	const rows: Livestream[] = [];
+	const easternSortable = toSqlSortableTimestamp(getEasternTime());
 
 	for await (const queryResult of cf.d1.database.query(process.env['CF_DB_ID']!, {
 		account_id: process.env['CF_ACCOUNT_ID']!,
 		sql: `
-				WITH input(now_local) AS (
-				SELECT ?
-				),
-				current_time(now_iso) AS (
-				SELECT
-					substr(now_local, 7, 4) || '-' ||
-					substr(now_local, 4, 2) || '-' ||
-					substr(now_local, 1, 2) ||
-					substr(now_local, 11)
-				FROM input
-				)
-				SELECT
-				s.id,
-				s.title,
-				s.video,
-				s."begin",
-				s."end"
-				FROM streams AS s
-				CROSS JOIN current_time AS c
-				WHERE
-				(
-					substr(s."begin", 7, 4) || '-' ||
-					substr(s."begin", 4, 2) || '-' ||
-					substr(s."begin", 1, 2) ||
-					substr(s."begin", 11)
-				) > c.now_iso
-				ORDER BY
-				(
-					substr(s."begin", 7, 4) || '-' ||
-					substr(s."begin", 4, 2) || '-' ||
-					substr(s."begin", 1, 2) ||
-					substr(s."begin", 11)
-				) ASC
-				LIMIT CAST(? AS INTEGER)
-				OFFSET CAST(? AS INTEGER);
-				`,
-		params: [getEasternTime(), String(limit), String(offset)]
+			SELECT
+			s.id,
+			s.title,
+			s.video,
+			s."begin",
+			s."end"
+			FROM streams AS s
+			WHERE
+			(
+				substr(s."begin", 7, 4) || '-' ||
+				substr(s."begin", 4, 2) || '-' ||
+				substr(s."begin", 1, 2) ||
+				substr(s."begin", 11)
+			) > ?
+			ORDER BY
+			(
+				substr(s."begin", 7, 4) || '-' ||
+				substr(s."begin", 4, 2) || '-' ||
+				substr(s."begin", 1, 2) ||
+				substr(s."begin", 11)
+			) ASC
+			LIMIT CAST(? AS INTEGER)
+			OFFSET CAST(? AS INTEGER)
+			`,
+		params: [easternSortable, String(limit), String(offset)]
 	})) {
 		rows.push(...((queryResult.results ?? []) as Livestream[]));
 	}
@@ -178,7 +167,7 @@ export const getNews = async (offset: number, limit: number): Promise<News[]> =>
 				substr(n.posted, 11)
 			) DESC
 			LIMIT CAST(? AS INTEGER)
-			OFFSET CAST(? AS INTEGER);
+			OFFSET CAST(? AS INTEGER)
 			`,
 		params: [String(limit), String(offset)]
 	})) {
