@@ -3,7 +3,7 @@ import Cloudflare from 'cloudflare';
 import { getEasternTime } from './utils.ts';
 
 const cf = new Cloudflare({
-	apiToken: process.env['CF_TOKEN']
+	apiToken: process.env.CF_TOKEN
 });
 
 export const addStream = async (title: string, videoId: string, start: string, end: string) => {
