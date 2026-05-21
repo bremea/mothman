@@ -40,3 +40,15 @@ export const getEasternTime = () => {
 
 	return `${get('day')}-${get('month')}-${get('year')} ${get('hour')}:${get('minute')}:${get('second')}`;
 };
+
+export const toSqlSortableTimestamp = (timestamp: string): string => {
+	const match = timestamp.match(/^(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})$/);
+
+	if (!match) {
+		throw new Error('timestamp must be formatted as DD-MM-YYYY HH:MM:SS');
+	}
+
+	const [, day, month, year, time] = match;
+
+	return `${year}-${month}-${day} ${time}`;
+};

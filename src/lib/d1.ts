@@ -1,6 +1,6 @@
 import type { Livestream, News } from './types.ts';
 import Cloudflare from 'cloudflare';
-import { getEasternTime } from './utils.ts';
+import { getEasternTime, toSqlSortableTimestamp } from './utils.ts';
 
 const cf = new Cloudflare({
 	apiToken: process.env.CF_TOKEN
@@ -175,16 +175,4 @@ export const getNews = async (offset: number, limit: number): Promise<News[]> =>
 	}
 
 	return rows;
-};
-
-const toSqlSortableTimestamp = (timestamp: string): string => {
-	const match = timestamp.match(/^(\d{2})-(\d{2})-(\d{4}) (\d{2}:\d{2}:\d{2})$/);
-
-	if (!match) {
-		throw new Error('timestamp must be formatted as DD-MM-YYYY HH:MM:SS');
-	}
-
-	const [, day, month, year, time] = match;
-
-	return `${year}-${month}-${day} ${time}`;
 };
