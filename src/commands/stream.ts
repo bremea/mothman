@@ -9,7 +9,10 @@ export class SetVersionCommand extends Command {
 
 	public override registerApplicationCommands(registry: Command.Registry) {
 		registry.registerChatInputCommand(
-			(builder) => builder.setName('stream').addSubcommand((subCommand) => subCommand.setName('schedule').setDescription('Schedule a livestream to appear on the website')),
+			(builder) =>
+				builder
+					.setName('stream')
+					.addSubcommand((subCommand) => subCommand.setName('schedule').setDescription('Manage featured livestreams').setDescription('Schedule a livestream to appear on the website')),
 			{ guildIds: ['1382087628181995771'] }
 		);
 	}
