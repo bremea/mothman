@@ -152,7 +152,7 @@ export const getUpcomingLive = async (offset: number, limit: number): Promise<Li
 
 export const getNews = async (offset: number, limit: number): Promise<News[]> => {
 	if (!Number.isInteger(limit) || limit < 1 || limit > 10) {
-		throw new Error('limit must be an integer between 1 and 100');
+		throw new Error('limit must be an integer between 1 and 10');
 	}
 
 	if (!Number.isInteger(offset) || offset < 0) {
