@@ -21,3 +21,10 @@ export const getETDate = () => {
 
 	return `${get('day')}${get('month')}${get('year')}`;
 };
+
+export const getEasternTime = () => {
+	const easternTime = new Date().toLocaleString('en-US', {
+		timeZone: 'America/New_York'
+	});
+	return easternTime;
+};
