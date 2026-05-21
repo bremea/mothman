@@ -1,5 +1,5 @@
 import { Command } from '@sapphire/framework';
-import { ComponentType } from 'discord.js';
+import { ComponentType, SlashCommandSubcommandBuilder } from 'discord.js';
 import { addStream } from '../lib/d1.ts';
 
 export class SetVersionCommand extends Command {
@@ -8,7 +8,10 @@ export class SetVersionCommand extends Command {
 	}
 
 	public override registerApplicationCommands(registry: Command.Registry) {
-		registry.registerChatInputCommand((builder) => builder.setName('schedule stream').setDescription('Schedule a livestream to appear on the website'), { guildIds: ['1382087628181995771'] });
+		registry.registerChatInputCommand(
+			(builder) => builder.setName('stream').addSubcommand((subCommand) => subCommand.setName('schedule').setDescription('Schedule a livestream to appear on the website')),
+			{ guildIds: ['1382087628181995771'] }
+		);
 	}
 	// make this also go live on bluesky
 
